@@ -1,6 +1,7 @@
 ﻿using FluentValidation.AspNetCore;
 using EmprestimosJogos.Domain.Core.Types;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Providers;
+using EmprestimosJogos.Infra.CrossCutting.Identity.Providers;
 using EmprestimosJogos.Infra.CrossCutting.IoC;
 using EmprestimosJogos.Infra.CrossCutting.Swagger.Providers;
 using EmprestimosJogos.Services.Api.Configurations;
@@ -48,6 +49,7 @@ namespace EmprestimosJogos.Services.Api
             //services.AddWebApi();
 
             services.AddAutoMapperSetup();
+            services.AddCustomIdentityConfiguration();
 
             services.AddControllers(options =>
             {
