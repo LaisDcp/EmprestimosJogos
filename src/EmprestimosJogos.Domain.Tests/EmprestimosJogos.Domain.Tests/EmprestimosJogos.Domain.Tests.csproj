@@ -21,9 +21,4 @@
     <ProjectReference Include="..\..\EmprestimosJogos.Domain\EmprestimosJogos.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Fixture\" />
-    <Folder Include="UnitTests\" />
-  </ItemGroup>
-
 </Project>
