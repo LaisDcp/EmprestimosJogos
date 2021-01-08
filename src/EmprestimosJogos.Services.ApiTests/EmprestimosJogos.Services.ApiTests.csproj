@@ -20,8 +20,4 @@
     <ProjectReference Include="..\EmprestimosJogos.Services.Api\EmprestimosJogos.Services.Api.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="IntegrationTest\" />
-  </ItemGroup>
-
 </Project>
