@@ -1,6 +1,7 @@
 ﻿using EmprestimosJogos.Domain.Core.Types;
 using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Providers;
+using EmprestimosJogos.Infra.CrossCutting.Identity.Providers;
 using EmprestimosJogos.Infra.CrossCutting.IoC;
 using EmprestimosJogos.Infra.Data.Context;
 using EmprestimosJogos.Services.Api.Configurations;
@@ -47,6 +48,7 @@ namespace EmprestimosJogos.Services.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAutoMapperSetup();
+            services.AddCustomIdentityConfiguration();
 
             services.AddControllers(options =>
             {
