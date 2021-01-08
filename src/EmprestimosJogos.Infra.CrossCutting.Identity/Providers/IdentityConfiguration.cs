@@ -1,4 +1,5 @@
-﻿using EmprestimosJogos.Infra.CrossCutting.Identity.Services;
+﻿using EmprestimosJogos.Domain.Entities;
+using EmprestimosJogos.Infra.CrossCutting.Identity.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;

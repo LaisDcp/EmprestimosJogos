@@ -1,4 +1,6 @@
-﻿using EmprestimosJogos.Infra.Data.Context;
+﻿using EmprestimosJogos.Domain.Entities;
+using EmprestimosJogos.Domain.Interfaces.Repositories;
+using EmprestimosJogos.Infra.Data.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
