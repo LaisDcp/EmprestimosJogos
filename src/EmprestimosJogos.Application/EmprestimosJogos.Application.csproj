@@ -12,14 +12,8 @@
   <ItemGroup>
     <ProjectReference Include="..\EmprestimosJogos.Domain\EmprestimosJogos.Domain.csproj" />
     <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.Auth\EmprestimosJogos.Infra.CrossCutting.Auth.csproj" />
+    <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.Identity\EmprestimosJogos.Infra.CrossCutting.Identity.csproj" />
     <ProjectReference Include="..\EmprestimosJogos.Infra.Data\EmprestimosJogos.Infra.Data.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
-    <Folder Include="Validations\" />
-    <Folder Include="ViewModels\" />
   </ItemGroup>
 
 </Project>
