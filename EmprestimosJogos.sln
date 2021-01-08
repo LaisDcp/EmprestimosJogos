@@ -36,6 +36,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmprestimosJogos.Infra.Cros
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmprestimosJogos.Infra.CrossCutting.Helpers", "src\EmprestimosJogos.Infra.CrossCutting.Helpers\EmprestimosJogos.Infra.CrossCutting.Helpers.csproj", "{BE8C58BE-A386-4632-BFA2-4F28909BDC9A}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmprestimosJogos.Infra.CrossCutting.Identity", "src\EmprestimosJogos.Infra.CrossCutting.Identity\EmprestimosJogos.Infra.CrossCutting.Identity.csproj", "{806E458A-46BE-44B3-814C-BB0A8E7FD5F3}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmprestimosJogos.Services.ApiTests", "src\EmprestimosJogos.Services.ApiTests\EmprestimosJogos.Services.ApiTests.csproj", "{CE579F96-C969-4248-82FE-3391C159AD6D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmprestimosJogos.Domain.Tests", "src\EmprestimosJogos.Domain.Tests\EmprestimosJogos.Domain.Tests\EmprestimosJogos.Domain.Tests.csproj", "{981217B3-0E4C-42DF-AB39-95C09A61F7E4}"
@@ -86,6 +88,10 @@ Global
 		{BE8C58BE-A386-4632-BFA2-4F28909BDC9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE8C58BE-A386-4632-BFA2-4F28909BDC9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE8C58BE-A386-4632-BFA2-4F28909BDC9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{806E458A-46BE-44B3-814C-BB0A8E7FD5F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{806E458A-46BE-44B3-814C-BB0A8E7FD5F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{806E458A-46BE-44B3-814C-BB0A8E7FD5F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{806E458A-46BE-44B3-814C-BB0A8E7FD5F3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CE579F96-C969-4248-82FE-3391C159AD6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CE579F96-C969-4248-82FE-3391C159AD6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE579F96-C969-4248-82FE-3391C159AD6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -112,6 +118,7 @@ Global
 		{A632B987-74E0-425B-8C04-79D6FAA7739E} = {54A5FE53-DACE-41F2-81AD-D02EBE216D43}
 		{D84586D8-3B05-47FE-B853-9A00988E73B5} = {54A5FE53-DACE-41F2-81AD-D02EBE216D43}
 		{BE8C58BE-A386-4632-BFA2-4F28909BDC9A} = {54A5FE53-DACE-41F2-81AD-D02EBE216D43}
+		{806E458A-46BE-44B3-814C-BB0A8E7FD5F3} = {54A5FE53-DACE-41F2-81AD-D02EBE216D43}
 		{CE579F96-C969-4248-82FE-3391C159AD6D} = {161979B8-0638-4510-BB4C-7A16E70229E1}
 		{981217B3-0E4C-42DF-AB39-95C09A61F7E4} = {E2A8D183-FC83-4277-8010-4B277E3547D7}
 	EndGlobalSection

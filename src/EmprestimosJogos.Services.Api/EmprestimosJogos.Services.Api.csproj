@@ -32,12 +32,9 @@
     <ProjectReference Include="..\EmprestimosJogos.Application\EmprestimosJogos.Application.csproj" />
     <ProjectReference Include="..\EmprestimosJogos.Domain\EmprestimosJogos.Domain.csproj" />
     <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.ExceptionHandler\EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.csproj" />
+    <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.Identity\EmprestimosJogos.Infra.CrossCutting.Identity.csproj" />
     <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.IoC\EmprestimosJogos.Infra.CrossCutting.IoC.csproj" />
     <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.Swagger\EmprestimosJogos.Infra.CrossCutting.Swagger.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="V1\Controllers\" />
   </ItemGroup>
 
 </Project>
