@@ -25,8 +25,4 @@
     <ProjectReference Include="..\EmprestimosJogos.Domain\EmprestimosJogos.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mappings\" />
-  </ItemGroup>
-
 </Project>

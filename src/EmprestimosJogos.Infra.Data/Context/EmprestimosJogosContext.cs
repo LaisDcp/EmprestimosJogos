@@ -1,4 +1,5 @@
 ﻿using EmprestimosJogos.Domain.Core.Models;
+using EmprestimosJogos.Domain.Entities;
 using EmprestimosJogos.Infra.Data.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,12 @@ namespace EmprestimosJogos.Infra.Data.Context
     {
         public static readonly LoggerFactory _debugLoggerFactory = new LoggerFactory(new[] { new DebugLoggerProvider() });
 
+        public DbSet<Usuario> Usuario { get; set; }
+
+        public DbSet<Perfil> Perfis { get; set; }
+
+        public DbSet<Amigo> Amigo { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Entities Config (identificação automática)
@@ -27,6 +34,10 @@ namespace EmprestimosJogos.Infra.Data.Context
             //Configurações globais
             modelBuilder.ApplyGlobalStandards();
             modelBuilder.SeedData();
+
+            modelBuilder.Entity<Usuario>()
+                .HasIndex(idx => idx.Id)
+                .IsUnique();
 
             foreach (var entityType in modelBuilder.Model.GetEntityTypes().Where(wh => wh.ClrType.BaseType == typeof(Entity)))
             {

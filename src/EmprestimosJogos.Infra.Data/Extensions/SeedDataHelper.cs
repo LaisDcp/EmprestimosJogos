@@ -1,4 +1,6 @@
+using EmprestimosJogos.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace EmprestimosJogos.Infra.Data.Extensions
 {
@@ -10,6 +12,25 @@ namespace EmprestimosJogos.Infra.Data.Extensions
         /// <returns></returns>
         public static ModelBuilder SeedData(this ModelBuilder builder)
         {
+            /*
+            Nunca alterar os Guids para que não ocorra erros de REFERENCE constraint FKs.
+            No momento do Update-Database, pois são os dados que já estão no BD.
+            */
+
+            #region TokenType
+
+            builder.Entity<TokenType>()
+               .HasData(
+                 new TokenType
+                 {
+                     Id = new Guid("652F2144-7B66-4AC4-967F-E0BAE568EBB1"),
+                     Key = TokenType.ResetSenha,
+                     Value = "Token para reset de senha (recuperação de senha).",
+                     CreatedDate = DateTime.Now
+                 });
+
+            #endregion
+
             return builder;
         }
     }
