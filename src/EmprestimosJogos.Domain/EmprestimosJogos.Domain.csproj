@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EmprestimosJogos.Domain.Core\EmprestimosJogos.Domain.Core.csproj" />
+    <ProjectReference Include="..\EmprestimosJogos.Infra.CrossCutting.Helpers\EmprestimosJogos.Infra.CrossCutting.Helpers.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entities\" />
+    <Folder Include="Interfaces\Repositories\" />
+    <Folder Include="Interfaces\Services\" />
+    <Folder Include="Services\" />
+    <Folder Include="Validations\" />
+  </ItemGroup>
+
+</Project>

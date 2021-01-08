@@ -1,0 +1,1 @@
+docker exec -it itn-mssqlserver /bin/bash /opt/entrypoint.sh
