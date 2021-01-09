@@ -48,7 +48,16 @@ namespace EmprestimosJogos.Application.Services
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            Jogo _jogo = _repository.GetById(id);
+            if (_jogo == null)
+                throw new ApiException(ApiErrorCodes.INVJOGO);
+
+            _repository.Delete(_jogo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
         }
 
         public bool Edit(JogoViewModel jogo, Guid id, Guid usuarioId)

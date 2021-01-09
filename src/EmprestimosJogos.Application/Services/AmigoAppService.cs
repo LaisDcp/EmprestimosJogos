@@ -48,7 +48,16 @@ namespace EmprestimosJogos.Application.Services
 
         public bool Delete(Guid id)
         {
-            throw new NotImplementedException();
+            Amigo _amigo = _repository.GetById(id);
+            if (_amigo == null)
+                throw new ApiException(ApiErrorCodes.INVAMIGO);
+
+            _repository.Delete(_amigo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
         }
 
         public bool Edit(AmigoViewModel amigo, Guid id, Guid usuarioId)
