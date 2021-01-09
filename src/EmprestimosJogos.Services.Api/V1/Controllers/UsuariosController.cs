@@ -22,7 +22,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
             _service = service;
         }
 
-        [HttpPost]
+        [HttpPost, AllowAnonymous]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateAsync(CreateUsuarioViewModel usuario)
         {
@@ -56,15 +56,15 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
             return Ok(_result);
         }
 
-        [HttpPut("nome")]
+        [HttpPut]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public IActionResult EditNome(string nome)
+        public IActionResult Edit(NomeBaseViewModel usuario)
         {
             if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
                  !Guid.TryParse(uId, out Guid id))
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
-            bool _result = _service.EditNome(nome, id);
+            bool _result = _service.Edit(usuario, id);
 
             return Ok(_result);
         }

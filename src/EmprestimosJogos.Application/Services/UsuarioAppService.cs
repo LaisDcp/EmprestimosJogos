@@ -120,17 +120,17 @@ namespace EmprestimosJogos.Application.Services
             return true;
         }
 
-        public bool EditNome(string nome, Guid id)
+        public bool Edit(NomeBaseViewModel usuario, Guid id)
         {
-            if (string.IsNullOrEmpty(nome))
-                throw new ApiException(ApiErrorCodes.INVNOME);
+            if (string.IsNullOrEmpty(usuario.Nome))
+                throw new ApiException(ApiErrorCodes.INVNOME, nameof(usuario.Nome));
 
             Usuario _usuario = _repository.GetById(id);
 
             if (_usuario == null)
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
-            _usuario.SetNome(nome);
+            _usuario = _mapper.Map(usuario, _usuario);
 
             _repository.Update(_usuario);
 

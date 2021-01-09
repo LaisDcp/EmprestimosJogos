@@ -12,7 +12,7 @@ namespace EmprestimosJogos.Application.Interfaces
 
         bool Delete(Guid id);
 
-        bool EditNome(string nome, Guid id);
+        bool Edit(NomeBaseViewModel usuario, Guid id);
 
         Task<RetornoAutenticacaoViewModel> Authenticate(LoginViewModel autenticacao);
 

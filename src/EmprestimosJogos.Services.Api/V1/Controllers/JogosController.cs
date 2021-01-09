@@ -23,7 +23,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public IActionResult Create(JogoViewModel jogo)
+        public IActionResult Create(NomeBaseViewModel jogo)
         {
             if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
               !Guid.TryParse(uId, out Guid usuarioId))
@@ -53,7 +53,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
 
         [HttpPut("{id}")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public IActionResult Edit(JogoViewModel jogo, Guid id)
+        public IActionResult Edit(NomeBaseViewModel jogo, Guid id)
         {
             bool _result = _service.Edit(jogo, id);
 
@@ -69,6 +69,20 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
             ModelCountViewModel<JogoViewModel> _result = _service.GetByFilter(filter, usuarioId);
+            return Ok(_result);
+        }        [HttpPut("{id}/emprestar")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public IActionResult Emprestar(Guid id, [FromQuery] Guid amigoId)
+        {
+            bool _result = _service.Emprestar(id, amigoId);
+
+            return Ok(_result);
+        }        [HttpPut("{id}/devolver")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public IActionResult Devolver(Guid id)
+        {
+            bool _result = _service.Devolver(id);
+
             return Ok(_result);
         }    }
 }

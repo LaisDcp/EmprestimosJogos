@@ -38,7 +38,7 @@ namespace EmprestimosJogos.Application.Services
 
         public ModelCountViewModel<AmigoViewModel> GetByFilter(FilterPaginacaoViewModel filter, Guid usuarioId)
         {
-            if (_repositoryUsuario.ExistsWithId(usuarioId))
+            if (!_repositoryUsuario.ExistsWithId(usuarioId))
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
             Expression<Func<Amigo, bool>> _where = wh => wh.CreatorId == usuarioId;
@@ -75,7 +75,7 @@ namespace EmprestimosJogos.Application.Services
 
         public bool Create(AmigoViewModel amigo, Guid usuarioId)
         {
-            if(_repositoryUsuario.ExistsWithId(usuarioId))
+            if(!_repositoryUsuario.ExistsWithId(usuarioId))
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
             ValidationResult _result = new AmigoValidation().Validate(amigo);

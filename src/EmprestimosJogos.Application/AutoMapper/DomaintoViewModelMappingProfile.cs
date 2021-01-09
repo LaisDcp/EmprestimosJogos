@@ -13,6 +13,8 @@ namespace EmprestimosJogos.Application.AutoMapper
             CreateMap<Amigo, AmigoViewModel>();
 
             CreateMap<Amigo, NomeBaseViewModel>();
+
+            CreateMap<Usuario, UsuarioViewModel>();
         }
     }
 }

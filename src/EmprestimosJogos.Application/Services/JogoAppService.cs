@@ -21,23 +21,26 @@ namespace EmprestimosJogos.Application.Services
     {
         private readonly IJogoRepository _repository;
         private readonly IUsuarioRepository _repositoryUsuario;
+        private readonly IAmigoRepository _repositoryAmigo;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
 
         public JogoAppService(IJogoRepository repository,
                                  IUsuarioRepository repositoryAutenticacao,
+                                 IAmigoRepository repositoryAmigo,
                                  IMapper mapper,
                                  IUnitOfWork uow)
         {
             _repository = repository;
             _repositoryUsuario = repositoryAutenticacao;
+            _repositoryAmigo = repositoryAmigo;
             _mapper = mapper;
             _uow = uow;
         }
 
         public ModelCountViewModel<JogoViewModel> GetByFilter(FilterPaginacaoViewModel filter, Guid usuarioId)
         {
-            if (_repositoryUsuario.ExistsWithId(usuarioId))
+            if (!_repositoryUsuario.ExistsWithId(usuarioId))
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
             Expression<Func<Jogo, bool>> _where = wh => wh.CreatorId == usuarioId;
@@ -72,9 +75,9 @@ namespace EmprestimosJogos.Application.Services
             return _mapper.Map<JogoViewModel>(_jogo);
         }
 
-        public bool Create(JogoViewModel jogo, Guid usuarioId)
+        public bool Create(NomeBaseViewModel jogo, Guid usuarioId)
         {
-            if (_repositoryUsuario.ExistsWithId(usuarioId))
+            if (!_repositoryUsuario.ExistsWithId(usuarioId))
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
             ValidationResult _result = new JogoValidation().Validate(jogo);
@@ -108,7 +111,7 @@ namespace EmprestimosJogos.Application.Services
             return true;
         }
 
-        public bool Edit(JogoViewModel jogo, Guid id)
+        public bool Edit(NomeBaseViewModel jogo, Guid id)
         {
             ValidationResult _result = new JogoValidation().Validate(jogo);
 
@@ -121,6 +124,42 @@ namespace EmprestimosJogos.Application.Services
                 throw new ApiException(ApiErrorCodes.INVJOGO);
 
             _jogo = _mapper.Map(jogo, _jogo);
+
+            _repository.Update(_jogo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
+        }
+
+        public bool Emprestar(Guid id, Guid amigoId)
+        {
+            if (!_repositoryAmigo.ExistsWithId(amigoId))
+                throw new ApiException(ApiErrorCodes.INVAMIGO);
+
+            Jogo _jogo = _repository.GetById(id);
+
+            if (_jogo == null)
+                throw new ApiException(ApiErrorCodes.INVJOGO);
+
+            _jogo.Emprestar(amigoId);
+
+            _repository.Update(_jogo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
+        }
+
+        public bool Devolver(Guid id)
+        {
+            Jogo _jogo = _repository.GetById(id);
+            if (_jogo == null)
+                throw new ApiException(ApiErrorCodes.INVJOGO);
+
+            _jogo.Devolver();
 
             _repository.Update(_jogo);
 

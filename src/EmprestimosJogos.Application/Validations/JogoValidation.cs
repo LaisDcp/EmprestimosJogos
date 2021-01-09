@@ -5,7 +5,7 @@ using FluentValidation;
 
 namespace EmprestimosJogos.Application.Validations
 {
-    public class JogoValidation : AbstractValidator<JogoViewModel>
+    public class JogoValidation : AbstractValidator<NomeBaseViewModel>
     {
         private string _campoObrigatorioMessage = ApiErrorCodes.CAMPOBRG.GetDescription();
         public JogoValidation()

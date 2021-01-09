@@ -31,16 +31,16 @@ namespace EmprestimosJogos.Domain.Entities
 
         public void Devolver()
         {
-            DataEmprestimo = DateTime.Now;
-            IsEmprestado = true;
+            DataEmprestimo = null;
+            IsEmprestado = false;
             Amigo = null;
             AmigoId = null;
         }
 
         public void Emprestar(Guid amigoId)
         {
-            DataEmprestimo = null;
-            IsEmprestado = false;
+            DataEmprestimo = DateTime.Now;
+            IsEmprestado = true;
             AmigoId = amigoId;
         }
     }
