@@ -25,7 +25,11 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public IActionResult Create(JogoViewModel jogo)
         {
-            bool _result = _service.Create(jogo);
+            if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
+              !Guid.TryParse(uId, out Guid usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            bool _result = _service.Create(jogo, usuarioId);
 
             return Ok(_result);
         }
@@ -52,11 +56,8 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public IActionResult Edit(JogoViewModel jogo, Guid id)
         {
-            if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
-              !Guid.TryParse(uId, out Guid usuarioId))
-                throw new ApiException(ApiErrorCodes.INVUSU);
-
-            bool _result = _service.Edit(jogo, id, usuarioId);
+            
+            bool _result = _service.Edit(jogo, id);
 
             return Ok(_result);
         }

@@ -9,10 +9,10 @@ namespace EmprestimosJogos.Application.Interfaces
 
         AmigoViewModel GetById(Guid id);
 
-        bool Create(AmigoViewModel amigo);
+        bool Create(AmigoViewModel amigo, Guid usuarioId);
 
         bool Delete(Guid id);
 
-        bool Edit(AmigoViewModel amigo, Guid id, Guid usuarioId);
+        bool Edit(AmigoViewModel amigo, Guid id);
     }
 }

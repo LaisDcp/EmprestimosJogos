@@ -46,7 +46,7 @@ namespace EmprestimosJogos.Application.Services
             return _mapper.Map<JogoViewModel>(_jogo);
         }
 
-        public bool Create(JogoViewModel jogo)
+        public bool Create(JogoViewModel jogo, Guid usuarioId)
         {
             throw new NotImplementedException();
         }
@@ -65,11 +65,8 @@ namespace EmprestimosJogos.Application.Services
             return true;
         }
 
-        public bool Edit(JogoViewModel jogo, Guid id, Guid usuarioId)
+        public bool Edit(JogoViewModel jogo, Guid id)
         {
-            if (!_repositoryUsuario.ExistsWithId(usuarioId))
-                throw new ApiException(ApiErrorCodes.INVUSU);
-
             ValidationResult _result = new JogoValidation().Validate(jogo);
 
             if (!_result.IsValid)
@@ -81,8 +78,6 @@ namespace EmprestimosJogos.Application.Services
                 throw new ApiException(ApiErrorCodes.INVJOGO);
 
             _jogo = _mapper.Map(jogo, _jogo);
-
-            _jogo.SetCreatorId(usuarioId);
 
             _repository.Update(_jogo);
 

@@ -48,7 +48,7 @@ namespace EmprestimosJogos.Application.Services
             return _mapper.Map<AmigoViewModel>(_amigo);
         }
 
-        public bool Create(AmigoViewModel amigo)
+        public bool Create(AmigoViewModel amigo, Guid usuarioId)
         {
             throw new NotImplementedException();
         }
