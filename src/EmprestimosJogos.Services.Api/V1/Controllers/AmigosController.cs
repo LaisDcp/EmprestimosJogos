@@ -31,7 +31,6 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
 
             bool _result = _service.Create(amigo, usuarioId);
 
-
             return Ok(_result);
         }
 
@@ -50,7 +49,6 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         {
             bool _result = _service.Delete(id);
             return Ok(_result);
-
         }
 
         [HttpPut("{id}")]

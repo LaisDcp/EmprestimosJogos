@@ -71,11 +71,8 @@ namespace EmprestimosJogos.Application.Services
             return true;
         }
 
-        public bool Edit(AmigoViewModel amigo, Guid id, Guid usuarioId)
+        public bool Edit(AmigoViewModel amigo, Guid id)
         {
-            if (!_repositoryUsuario.ExistsWithId(usuarioId))
-                throw new ApiException(ApiErrorCodes.INVUSU);
-
             ValidationResult _result = new AmigoValidation().Validate(amigo);
 
             if (!_result.IsValid)
@@ -87,8 +84,6 @@ namespace EmprestimosJogos.Application.Services
                 throw new ApiException(ApiErrorCodes.INVAMIGO);
 
             _amigo = _mapper.Map(amigo, _amigo);
-
-            _amigo.SetCreatorId(usuarioId);
 
             _repository.Update(_amigo);
 

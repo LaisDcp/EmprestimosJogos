@@ -10,13 +10,7 @@ namespace EmprestimosJogos.Application.Validations
         private string _campoObrigatorioMessage = ApiErrorCodes.CAMPOBRG.GetDescription();
         public AmigoValidation()
         {
-            RuleFor(u => u.PerfilId)
-               .NotNull()
-                   .WithMessage(_campoObrigatorioMessage);
-
             RuleFor(u => u.Nome)
-                .NotNull()
-                    .WithMessage(_campoObrigatorioMessage)
                 .NotEmpty()
                     .WithMessage(_campoObrigatorioMessage);
 
@@ -24,11 +18,6 @@ namespace EmprestimosJogos.Application.Validations
                 .MinimumLength(8)
                 .When(u => !string.IsNullOrEmpty(u.CEP))
                     .WithMessage(ApiErrorCodes.INVCEP.GetDescription());
-
-            RuleFor(u => u.TelefoneFixo)
-                .MinimumLength(10)
-                .When(u => !string.IsNullOrEmpty(u.TelefoneFixo))
-                    .WithMessage(ApiErrorCodes.INVTEL.GetDescription());
 
             RuleFor(u => u.TelefoneCelular)
                 .MinimumLength(10)

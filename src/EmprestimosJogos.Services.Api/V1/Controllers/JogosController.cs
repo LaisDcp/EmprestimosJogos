@@ -49,7 +49,6 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         {
             bool _result = _service.Delete(id);
             return Ok(_result);
-
         }
 
         [HttpPut("{id}")]
