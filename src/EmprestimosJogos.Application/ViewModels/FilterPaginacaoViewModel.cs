@@ -9,6 +9,7 @@
             ItemsPerPage = 1;
             SortBy = "Nome";
         }
+        public string Nome { get; set; }
 
         public string SortBy { get; set; }
 

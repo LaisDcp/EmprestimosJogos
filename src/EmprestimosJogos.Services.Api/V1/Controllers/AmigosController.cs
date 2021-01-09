@@ -62,9 +62,13 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
 
         [HttpPost("filter")]
         [ProducesResponseType(typeof(ModelCountViewModel<AmigoViewModel>), StatusCodes.Status200OK)]
-        public IActionResult GetByFilter([FromBody] FilterContainsViewModel filter)
+        public IActionResult GetByFilter([FromBody] FilterPaginacaoViewModel filter)
         {
-            ModelCountViewModel<AmigoViewModel> _result = _service.GetByFilter(filter);
+            if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
+                 !Guid.TryParse(uId, out Guid usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            ModelCountViewModel<AmigoViewModel> _result = _service.GetByFilter(filter, usuarioId);
             return Ok(_result);
         }    }
 }

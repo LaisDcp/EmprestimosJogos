@@ -5,7 +5,7 @@ namespace EmprestimosJogos.Application.Interfaces
 {
     public interface IJogoAppService
     {
-        ModelCountViewModel<JogoViewModel> GetByFilter(FilterContainsViewModel filter);
+        ModelCountViewModel<JogoViewModel> GetByFilter(FilterPaginacaoViewModel filter, Guid usuarioId);
 
         JogoViewModel GetById(Guid id);
 

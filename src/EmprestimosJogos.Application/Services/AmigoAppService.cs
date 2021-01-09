@@ -3,6 +3,7 @@ using EmprestimosJogos.Application.Interfaces;
 using EmprestimosJogos.Application.Validations;
 using EmprestimosJogos.Application.ViewModels;
 using EmprestimosJogos.Domain.Core.Enum;
+using EmprestimosJogos.Domain.Core.Extensions;
 using EmprestimosJogos.Domain.Entities;
 using EmprestimosJogos.Domain.Interfaces.Repositories;
 using EmprestimosJogos.Domain.Interfaces.UoW;
@@ -11,7 +12,9 @@ using EmprestimosJogos.Infra.CrossCutting.Helpers;
 using FluentValidation.Results;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace EmprestimosJogos.Application.Services
 {
@@ -33,9 +36,31 @@ namespace EmprestimosJogos.Application.Services
             _uow = uow;
         }
 
-        public ModelCountViewModel<AmigoViewModel> GetByFilter(FilterContainsViewModel filter)
+        public ModelCountViewModel<AmigoViewModel> GetByFilter(FilterPaginacaoViewModel filter, Guid usuarioId)
         {
-            throw new NotImplementedException();
+            if (_repositoryUsuario.ExistsWithId(usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            Expression<Func<Amigo, bool>> _where = wh => wh.CreatorId == usuarioId;
+            List<AmigoViewModel> _amigos;
+
+            if (!string.IsNullOrEmpty(filter.Nome))
+                _where = _where.And(wh => wh.Nome.Contains(filter.Nome));
+
+            _amigos = _mapper.Map<List<AmigoViewModel>>(
+                                _repository.AdvancedFilter(_where,
+                                                            $"{ filter.SortBy} {filter.Descending()}",
+                                                            filter.Page,
+                                                            filter.ItemsPerPage))
+                            .ToList();
+
+            return new ModelCountViewModel<AmigoViewModel>
+            {
+                Items = _amigos,
+                Count = _repository.Query(_where)
+                                   .Select(sel => sel.Id)
+                                   .Count()
+            };
         }
 
         public AmigoViewModel GetById(Guid id)

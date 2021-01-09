@@ -3,6 +3,7 @@ using EmprestimosJogos.Application.Interfaces;
 using EmprestimosJogos.Application.Validations;
 using EmprestimosJogos.Application.ViewModels;
 using EmprestimosJogos.Domain.Core.Enum;
+using EmprestimosJogos.Domain.Core.Extensions;
 using EmprestimosJogos.Domain.Entities;
 using EmprestimosJogos.Domain.Interfaces.Repositories;
 using EmprestimosJogos.Domain.Interfaces.UoW;
@@ -10,6 +11,9 @@ using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
 using EmprestimosJogos.Infra.CrossCutting.Helpers;
 using FluentValidation.Results;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace EmprestimosJogos.Application.Services
 {
@@ -31,9 +35,31 @@ namespace EmprestimosJogos.Application.Services
             _uow = uow;
         }
 
-        public ModelCountViewModel<JogoViewModel> GetByFilter(FilterContainsViewModel filter)
+        public ModelCountViewModel<JogoViewModel> GetByFilter(FilterPaginacaoViewModel filter, Guid usuarioId)
         {
-            throw new NotImplementedException();
+            if (_repositoryUsuario.ExistsWithId(usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            Expression<Func<Jogo, bool>> _where = wh => wh.CreatorId == usuarioId;
+            List<JogoViewModel> _jogos;
+
+            if (!string.IsNullOrEmpty(filter.Nome))
+                _where = _where.And(wh => wh.Nome.Contains(filter.Nome));
+
+            _jogos = _mapper.Map<List<JogoViewModel>>(
+                                _repository.AdvancedFilter(_where,
+                                                            $"{ filter.SortBy} {filter.Descending()}",
+                                                            filter.Page,
+                                                            filter.ItemsPerPage))
+                            .ToList();
+
+            return new ModelCountViewModel<JogoViewModel>
+            {
+                Items = _jogos,
+                Count = _repository.Query(_where)
+                                   .Select(sel => sel.Id)
+                                   .Count()
+            };
         }
 
         public JogoViewModel GetById(Guid id)
