@@ -2,7 +2,7 @@
 
 namespace EmprestimosJogos.Application.ViewModels
 {
-    public class AmigoViewModel
+    public class AmigoViewModel : EntityViewModel
     {
         public AmigoViewModel()
         {

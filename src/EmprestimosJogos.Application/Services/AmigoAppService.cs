@@ -37,7 +37,7 @@ namespace EmprestimosJogos.Application.Services
             _userManager = userManager;
         }
 
-        public ModelCountViewModel<AmigoViewModel> GetByFilter(FilterUsuarioViewModel filter)
+        public ModelCountViewModel<AmigoViewModel> GetByFilter(FilterContainsViewModel filter)
         {
             throw new NotImplementedException();
         }
@@ -50,7 +50,6 @@ namespace EmprestimosJogos.Application.Services
         public bool Create(AmigoViewModel usuario)
         {
             throw new NotImplementedException();
-
         }
 
         public bool Delete(Guid id)
@@ -61,7 +60,6 @@ namespace EmprestimosJogos.Application.Services
         public bool Edit(AmigoViewModel usuario, Guid id)
         {
             throw new NotImplementedException();
-
         }
     }
 }

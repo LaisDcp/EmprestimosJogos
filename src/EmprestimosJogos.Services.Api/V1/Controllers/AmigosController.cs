@@ -28,7 +28,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AmigoViewModel), StatusCodes.Status200OK)]
-        public IActionResult GetByEmail(Guid id)
+        public IActionResult GetById(Guid id)
         {
             AmigoViewModel _result = _service.GetById(id);
 
@@ -55,7 +55,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
 
         [HttpPost("filter")]
         [ProducesResponseType(typeof(ModelCountViewModel<AmigoViewModel>), StatusCodes.Status200OK)]
-        public IActionResult GetByFilter([FromBody] FilterUsuarioViewModel filter)
+        public IActionResult GetByFilter([FromBody] FilterContainsViewModel filter)
         {
             ModelCountViewModel<AmigoViewModel> _result = _service.GetByFilter(filter);
             return Ok(_result);

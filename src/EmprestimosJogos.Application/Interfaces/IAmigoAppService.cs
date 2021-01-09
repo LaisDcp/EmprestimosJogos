@@ -5,7 +5,7 @@ namespace EmprestimosJogos.Application.Interfaces
 {
     public interface IAmigoAppService
     {
-        ModelCountViewModel<AmigoViewModel> GetByFilter(FilterUsuarioViewModel filter);
+        ModelCountViewModel<AmigoViewModel> GetByFilter(FilterContainsViewModel filter);
 
         AmigoViewModel GetById(Guid id);
 
