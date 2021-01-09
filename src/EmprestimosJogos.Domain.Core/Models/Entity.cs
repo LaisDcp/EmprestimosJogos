@@ -11,6 +11,7 @@ namespace EmprestimosJogos.Domain.Core.Models
             IsDeleted = false;
             CreatedDate = DateTime.Now;
         }
+
         public Guid Id { get; set; }
 
         public DateTime CreatedDate { get; set; }

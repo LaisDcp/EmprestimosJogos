@@ -20,7 +20,7 @@ namespace EmprestimosJogos.Infra.Data.Mappings
                 .IsRequired();
 
             builder.HasOne(u => u.Amigo)
-                .WithMany(p => p.Jogos)
+                .WithMany(p => p.JogosEmprestados)
                 .HasForeignKey(u => u.AmigoId)
                 .IsRequired(false);
         }

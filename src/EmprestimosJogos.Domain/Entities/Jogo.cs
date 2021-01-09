@@ -7,10 +7,12 @@ namespace EmprestimosJogos.Domain.Entities
     {
         public Jogo()
         {
+            IsEmprestado = false;
         }
+
         public string Nome { get; set; }
 
-        public DateTime? DataUltimoEmprestimo { get; set; }
+        public DateTime? DataEmprestimo { get; set; }
 
         public bool IsEmprestado { get; set; }
 
@@ -25,6 +27,21 @@ namespace EmprestimosJogos.Domain.Entities
         public void SetCreatorId(Guid creatorId)
         {
             CreatorId = creatorId;
+        }
+
+        public void Devolver()
+        {
+            DataEmprestimo = DateTime.Now;
+            IsEmprestado = true;
+            Amigo = null;
+            AmigoId = null;
+        }
+
+        public void Emprestar(Guid amigoId)
+        {
+            DataEmprestimo = null;
+            IsEmprestado = false;
+            AmigoId = amigoId;
         }
     }
 }

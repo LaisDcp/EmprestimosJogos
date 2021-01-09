@@ -9,7 +9,9 @@ using EmprestimosJogos.Domain.Interfaces.UoW;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
 using EmprestimosJogos.Infra.CrossCutting.Helpers;
 using FluentValidation.Results;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 
 namespace EmprestimosJogos.Application.Services
 {
@@ -48,9 +50,13 @@ namespace EmprestimosJogos.Application.Services
 
         public bool Delete(Guid id)
         {
-            Amigo _amigo = _repository.GetById(id);
+            Amigo _amigo = _repository.GetById(id, q => q.Include(i => i.JogosEmprestados));
+
             if (_amigo == null)
                 throw new ApiException(ApiErrorCodes.INVAMIGO);
+
+            if (_amigo.JogosEmprestados.Any())
+                throw new ApiException(ApiErrorCodes.AMIHASJOGO);
 
             _repository.Delete(_amigo);
 

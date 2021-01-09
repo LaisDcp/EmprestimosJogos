@@ -9,7 +9,7 @@ namespace EmprestimosJogos.Domain.Entities
     {
         public Amigo()
         {
-            Jogos = new List<Jogo>();
+            JogosEmprestados = new List<Jogo>();
         }
 
         public string Nome { get; set; }
@@ -30,7 +30,7 @@ namespace EmprestimosJogos.Domain.Entities
 
         public virtual Usuario Creator { get; set; }
 
-        public virtual ICollection<Jogo> Jogos { get; set; }
+        public virtual ICollection<Jogo> JogosEmprestados { get; set; }
 
         public bool IsValid()
         {

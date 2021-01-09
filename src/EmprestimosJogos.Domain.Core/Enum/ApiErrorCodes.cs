@@ -336,6 +336,13 @@ namespace EmprestimosJogos.Domain.Core.Enum
         [Description("Usuário existente.")]
         EXUSU,
 
+        /// <summary>
+        /// Esse amigo está com jogo emprestado. Realizar a devolução primeiro.
+        /// </summary>
+        [HttpStatusCode(StatusCodes.Status409Conflict)]
+        [Description("Esse amigo está com jogo emprestado. Realizar a devolução primeiro.")]
+        AMIHASJOGO,
+
         #endregion
 
         #region 500 Status (Internal Server Error)
