@@ -24,9 +24,9 @@ namespace EmprestimosJogos.Domain.Entities
 
         public string TelefoneCelular { get; set; }
 
-        public Guid UsuarioId { get; set; }
+        public Guid CreatorId { get; set; }
 
-        public virtual Usuario Usuario { get; set; }
+        public virtual Usuario Creator { get; set; }
 
         public bool IsValid()
         {

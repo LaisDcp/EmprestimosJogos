@@ -42,12 +42,12 @@ namespace EmprestimosJogos.Infra.CrossCutting.IoC
             #endregion
 
             #region Repositories
-
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<IPerfilRepository, PerfilRepository>();
             services.AddScoped<IAmigoRepository, AmigoRepository>();
             services.AddScoped<ITokenRepository, TokenRepository>();
             services.AddScoped<ITokenTypeRepository, TokenTypeRepository>();
+            services.AddScoped<IJogoRepository, JogoRepository>();
             #endregion
         }
     }

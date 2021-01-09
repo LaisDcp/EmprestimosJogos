@@ -35,9 +35,9 @@ namespace EmprestimosJogos.Infra.Data.Mappings
                 .HasMaxLength(14)
                 .IsRequired();
 
-            builder.HasOne(u => u.Usuario)
+            builder.HasOne(u => u.Creator)
                 .WithMany(p => p.Amigos)
-                .HasForeignKey(u => u.UsuarioId);
+                .HasForeignKey(u => u.CreatorId);
         }
     }
 }
