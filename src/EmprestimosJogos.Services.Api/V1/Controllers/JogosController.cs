@@ -56,7 +56,6 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public IActionResult Edit(JogoViewModel jogo, Guid id)
         {
-            
             bool _result = _service.Edit(jogo, id);
 
             return Ok(_result);

@@ -57,11 +57,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public IActionResult Edit(AmigoViewModel amigo, Guid id)
         {
-            if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
-              !Guid.TryParse(uId, out Guid usuarioId))
-                throw new ApiException(ApiErrorCodes.INVUSU);
-
-            bool _result = _service.Edit(amigo, id, usuarioId);
+            bool _result = _service.Edit(amigo, id);
 
             return Ok(_result);
         }
