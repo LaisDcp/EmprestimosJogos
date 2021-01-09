@@ -26,6 +26,8 @@ namespace EmprestimosJogos.Infra.Data.Context
 
         public DbSet<Amigo> Amigo { get; set; }
 
+        public DbSet<Jogo> Jogo { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Entities Config (identificação automática)
