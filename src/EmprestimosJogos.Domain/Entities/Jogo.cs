@@ -8,6 +8,8 @@ namespace EmprestimosJogos.Domain.Entities
         public Jogo()
         {
         }
+        public string Nome { get; set; }
+
         public DateTime? DataUltimoEmprestimo { get; set; }
 
         public bool IsEmprestado { get; set; }

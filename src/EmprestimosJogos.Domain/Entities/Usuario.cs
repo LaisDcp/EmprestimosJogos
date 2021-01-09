@@ -9,7 +9,9 @@ namespace EmprestimosJogos.Domain.Entities
     {
         public Usuario()
         {
+            Amigos = new List<Amigo>();
             Tokens = new List<Token>();
+            Jogos = new List<Jogo>();
         }
 
         public string Nome { get; set; }
@@ -23,6 +25,8 @@ namespace EmprestimosJogos.Domain.Entities
         public virtual ICollection<Amigo> Amigos { get; set; }
 
         public virtual ICollection<Token> Tokens { get; set; }
+
+        public virtual ICollection<Jogo> Jogos { get; set; }
 
         #region Identity
 

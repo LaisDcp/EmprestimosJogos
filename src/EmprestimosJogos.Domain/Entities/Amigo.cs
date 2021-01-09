@@ -1,6 +1,7 @@
 using EmprestimosJogos.Domain.Core.Models;
 using EmprestimosJogos.Domain.Validations;
 using System;
+using System.Collections.Generic;
 
 namespace EmprestimosJogos.Domain.Entities
 {
@@ -8,6 +9,7 @@ namespace EmprestimosJogos.Domain.Entities
     {
         public Amigo()
         {
+            Jogos = new List<Jogo>();
         }
 
         public string Nome { get; set; }
@@ -27,6 +29,8 @@ namespace EmprestimosJogos.Domain.Entities
         public Guid CreatorId { get; set; }
 
         public virtual Usuario Creator { get; set; }
+
+        public virtual ICollection<Jogo> Jogos { get; set; }
 
         public bool IsValid()
         {
