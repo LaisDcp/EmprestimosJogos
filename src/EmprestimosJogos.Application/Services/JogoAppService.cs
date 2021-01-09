@@ -48,7 +48,24 @@ namespace EmprestimosJogos.Application.Services
 
         public bool Create(JogoViewModel jogo, Guid usuarioId)
         {
-            throw new NotImplementedException();
+            if (_repositoryUsuario.ExistsWithId(usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            ValidationResult _result = new JogoValidation().Validate(jogo);
+
+            if (!_result.IsValid)
+                throw new ApiException(_result.GetErrors(), ApiErrorCodes.MODNOTVALD);
+
+            Jogo _jogo = _mapper.Map<Jogo>(jogo);
+
+            _jogo.SetCreatorId(usuarioId);
+
+            _repository.Create(_jogo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
         }
 
         public bool Delete(Guid id)
