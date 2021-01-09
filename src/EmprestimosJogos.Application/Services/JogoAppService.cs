@@ -38,7 +38,12 @@ namespace EmprestimosJogos.Application.Services
 
         public JogoViewModel GetById(Guid id)
         {
-            throw new NotImplementedException();
+            Jogo _jogo = _repository.GetById(id);
+
+            if (_jogo == null)
+                throw new ApiException(ApiErrorCodes.INVJOGO);
+
+            return _mapper.Map<JogoViewModel>(_jogo);
         }
 
         public bool Create(JogoViewModel jogo)

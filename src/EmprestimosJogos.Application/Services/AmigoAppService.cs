@@ -40,7 +40,12 @@ namespace EmprestimosJogos.Application.Services
 
         public AmigoViewModel GetById(Guid id)
         {
-            throw new NotImplementedException();
+            Amigo _amigo = _repository.GetById(id);
+
+            if (_amigo == null)
+                throw new ApiException(ApiErrorCodes.INVAMIGO);
+
+            return _mapper.Map<AmigoViewModel>(_amigo);
         }
 
         public bool Create(AmigoViewModel amigo)
