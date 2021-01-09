@@ -5,18 +5,18 @@ using EmprestimosJogos.Application.ViewModels;
 
 namespace EmprestimosJogos.Application.Validations
 {
-    public class UsuarioValidation : AbstractValidator<UsuarioViewModel>
+    public class LoginValidation : AbstractValidator<LoginViewModel>
     {
         private string _campoObrigatorioMessage = ApiErrorCodes.CAMPOBRG.GetDescription();
 
-        public UsuarioValidation()
+        public LoginValidation()
         {
-            RuleFor(u => u.Nome)
+            RuleFor(u => u.Email)
                .NotEmpty()
                    .WithMessage(_campoObrigatorioMessage);
 
-            RuleFor(u => u.Email)
-               .NotEmpty()
+            RuleFor(u => u.Senha)
+                .NotEmpty()
                    .WithMessage(_campoObrigatorioMessage);
         }
     }

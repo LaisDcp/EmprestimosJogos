@@ -31,6 +31,22 @@ namespace EmprestimosJogos.Infra.Data.Extensions
 
             #endregion
 
+            #region Perfil
+
+            builder.Entity<Perfil>()
+               .HasData(
+                 new Perfil
+                 {
+                     Id = new Guid("8907D860-CEB1-4345-B798-8757200E90C9"),
+                     Key = Perfil.ADM,
+                     Nome = "Administrador",
+                     NormalizedRoleName = "ADMINISTRADOR",
+                     Descricao = "Perfil para usuários administradores do sistema.",
+                     CreatedDate = DateTime.Now
+                 });
+
+            #endregion
+
             return builder;
         }
     }

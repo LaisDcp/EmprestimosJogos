@@ -118,6 +118,11 @@ namespace EmprestimosJogos.Domain.Entities
             ExpirationDate = null;
         }
 
+        public void SetPerfilId(Guid perfilId)
+        {
+            PerfilId = perfilId;
+        }
+
         /// <summary>
         /// Define que a ExpirationDate será agora, para fins de troca de senha.
         /// </summary>
@@ -147,6 +152,11 @@ namespace EmprestimosJogos.Domain.Entities
         {
             ValidationResult = new UsuarioValidation().Validate(this);
             return ValidationResult.IsValid;
+        }
+
+        public void SetNome(string nome)
+        {
+            Nome = nome;
         }
     }
 }

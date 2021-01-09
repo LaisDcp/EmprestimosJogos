@@ -1,11 +1,20 @@
 ﻿using EmprestimosJogos.Application.ViewModels;
+using System;
 using System.Threading.Tasks;
 
 namespace EmprestimosJogos.Application.Interfaces
 {
     public interface IUsuarioAppService
     {
-        Task<RetornoAutenticacaoViewModel> Authenticate(UsuarioViewModel autenticacao);
+        UsuarioViewModel GetById(Guid id);
+
+        Task<bool> CreateAsync(CreateUsuarioViewModel usuario);
+
+        bool Delete(Guid id);
+
+        bool EditNome(string nome, Guid id);
+
+        Task<RetornoAutenticacaoViewModel> Authenticate(LoginViewModel autenticacao);
 
         Task AlterarSenha(AlterarSenhaUsuarioViewModel alterarSenha);
 

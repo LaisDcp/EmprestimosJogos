@@ -29,5 +29,10 @@ namespace EmprestimosJogos.Infra.Data.Repositories
             return Query(wh => wh.Id == id)
                     .Any();
         }
+
+        public Usuario GetById(Guid id, Func<IQueryable<Usuario>, object> includes = null)
+        {
+            return Find(e => e.Id == id, includes);
+        }
     }
 }

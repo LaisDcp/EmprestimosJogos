@@ -11,5 +11,7 @@ namespace EmprestimosJogos.Domain.Interfaces.Repositories
         bool ExistsWithUserName(string userName);
 
         bool ExistsWithId(Guid id);
+
+        Usuario GetById(Guid id, Func<IQueryable<Usuario>, object> includes = null);
     }
 }

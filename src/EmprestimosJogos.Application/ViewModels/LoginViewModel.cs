@@ -1,12 +1,14 @@
 ﻿namespace EmprestimosJogos.Application.ViewModels
 {
-    public class UsuarioViewModel: NomeBaseViewModel
+    public class LoginViewModel
     {
-        public UsuarioViewModel()
+        public LoginViewModel()
         {
 
         }
 
         public string Email { get; set; }
+
+        public string Senha { get; set; }
     }
 }

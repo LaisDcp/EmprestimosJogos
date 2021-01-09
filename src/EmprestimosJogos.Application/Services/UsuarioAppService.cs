@@ -10,10 +10,12 @@ using EmprestimosJogos.Domain.Interfaces.Repositories;
 using EmprestimosJogos.Domain.Interfaces.UoW;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
 using EmprestimosJogos.Infra.CrossCutting.Helpers;
+using EmprestimosJogos.Infra.CrossCutting.Identity.Extensions;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EmprestimosJogos.Application.Services
@@ -23,6 +25,7 @@ namespace EmprestimosJogos.Application.Services
         private readonly IUsuarioRepository _repository;
         private readonly ITokenRepository _repositoryToken;
         private readonly ITokenTypeRepository _repositoryTokenType;
+        private readonly IPerfilRepository _repositoryPerfil;
 
         private readonly ITokenFacade _facadeToken;
         private readonly IAuthFacade _facadeAuth;
@@ -37,6 +40,7 @@ namespace EmprestimosJogos.Application.Services
         public UsuarioAppService(IUsuarioRepository repository,
                                  ITokenRepository repositoryToken,
                                  ITokenTypeRepository repositoryTokenType,
+                                 IPerfilRepository repositoryPerfil,
                                  ITokenFacade facadeToken,
                                  IAuthFacade facadeAuth,
                                  IPasswordValidator<Usuario> validatorPassword,
@@ -48,6 +52,7 @@ namespace EmprestimosJogos.Application.Services
             _repository = repository;
             _repositoryToken = repositoryToken;
             _repositoryTokenType = repositoryTokenType;
+            _repositoryPerfil = repositoryPerfil;
             _facadeToken = facadeToken;
             _facadeAuth = facadeAuth;
             _validatorPassword = validatorPassword;
@@ -57,9 +62,87 @@ namespace EmprestimosJogos.Application.Services
             _uow = uow;
         }
 
-        public async Task<RetornoAutenticacaoViewModel> Authenticate(UsuarioViewModel autenticacao)
+        public UsuarioViewModel GetById(Guid id)
         {
-            ValidationResult _validationResult = new UsuarioValidation().Validate(autenticacao);
+            Usuario _usuario = _repository.GetById(id);
+
+            if (_usuario == null)
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            return _mapper.Map<UsuarioViewModel>(_usuario);
+        }
+
+        public async Task<bool> CreateAsync(CreateUsuarioViewModel usuario)
+        {
+            ValidationResult _result = new CreateUsuarioValidation().Validate(usuario);
+
+            if (!_result.IsValid)
+                throw new ApiException(_result.GetErrors(), ApiErrorCodes.MODNOTVALD);
+
+            Perfil _perfil = _repositoryPerfil.GetByKey(Perfil.ADM);
+
+            if (_repository.ExistsWithUserName(usuario.Email))
+                throw new ApiException(ApiErrorCodes.EXUSU);
+
+            Usuario _usuario = _mapper.Map<Usuario>(usuario);
+
+            IdentityResult _identityResult = await _userManager.AddPasswordAsync(_usuario, usuario.Senha);
+
+            if (!_identityResult.Succeeded)
+                throw new ApiException(ApiErrorCodes.INVPASS, nameof(usuario.Senha));
+
+            IdentityResult _createResult = await _userManager.CreateAsync(_usuario, usuario.Senha);
+
+            if (!_createResult.Succeeded || _createResult.Errors.Any())
+                throw new ApiException(_createResult.GetErrorsToString(), ApiErrorCodes.CRUSIDNT);
+
+            _usuario.SetPerfilId(_perfil.Id);
+
+            _repository.Create(_usuario);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
+        }
+
+        public bool Delete(Guid id)
+        {
+            Usuario _usuario = _repository.GetById(id);
+            if (_usuario == null)
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            _repository.Delete(_usuario);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
+        }
+
+        public bool EditNome(string nome, Guid id)
+        {
+            if (string.IsNullOrEmpty(nome))
+                throw new ApiException(ApiErrorCodes.INVNOME);
+
+            Usuario _usuario = _repository.GetById(id);
+
+            if (_usuario == null)
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            _usuario.SetNome(nome);
+
+            _repository.Update(_usuario);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
+        }
+
+        public async Task<RetornoAutenticacaoViewModel> Authenticate(LoginViewModel autenticacao)
+        {
+            ValidationResult _validationResult = new LoginValidation().Validate(autenticacao);
 
             if (!_validationResult.IsValid)
                 throw new ApiException(_validationResult.GetErrors(), ApiErrorCodes.MODNOTVALD);
@@ -75,17 +158,17 @@ namespace EmprestimosJogos.Application.Services
                 else
                     throw new ApiException(ApiErrorCodes.INVUSPASS);
             }
-            else
-            {
-                Usuario _autenticacao = _repository.GetByUserName(
-                                                            autenticacao.Email,
-                                                            q => q
-                                                                .Include(i => i.Tokens));
 
-                string _generatedToken = GenerateTokenByAutenticacao(_autenticacao);
+            Usuario _autenticacao = _repository.GetByUserName(
+                                                        autenticacao.Email,
+                                                        q => q
+                                                            .Include(i => i.Perfil));
 
-                return GetRetornoAutenticacao(_autenticacao, _generatedToken);
-            }
+            string _generatedToken = GenerateTokenByAutenticacao(_autenticacao);
+
+            return new RetornoAutenticacaoViewModel(token: _generatedToken,
+                                                    isSenhaExpirada: _autenticacao.IsExpiredPassword(),
+                                                    usuarioId: _autenticacao.Id);
         }
 
         public async Task AlterarSenha(AlterarSenhaUsuarioViewModel alterarSenha)
@@ -170,12 +253,6 @@ namespace EmprestimosJogos.Application.Services
                 throw new ApiException(ApiErrorCodes.SENINV, nameof(novaSenha));
         }
 
-        /// <summary>
-        /// Gerar um token a partir da Autenticacao
-        /// </summary>
-        /// <param name="autenticacao"></param>
-        /// <param name="dispositivoId"></param>
-        /// <returns></returns>
         private string GenerateTokenByAutenticacao(Usuario autenticacao)
         {
             ContextUserDTO _contextUser = new ContextUserDTO(id: autenticacao.Id.ToString(),
@@ -186,19 +263,6 @@ namespace EmprestimosJogos.Application.Services
             string _generatedToken = _facadeToken.GenerateToken(_contextUser);
 
             return _generatedToken;
-        }
-
-        /// <summary>
-        /// Gerar a viewmodel de retorno da autenticação.
-        /// </summary>
-        /// <param name="autenticacao"></param>
-        /// <param name="token"></param>
-        /// <returns></returns>
-        private RetornoAutenticacaoViewModel GetRetornoAutenticacao(Usuario autenticacao, string token)
-        {
-            return new RetornoAutenticacaoViewModel(token: token,
-                                                      isSenhaExpirada: autenticacao.IsExpiredPassword(),
-                                                      usuarioId: autenticacao.Id);
         }
 
         #endregion
