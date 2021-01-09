@@ -39,6 +39,7 @@ namespace EmprestimosJogos.Infra.CrossCutting.IoC
 
             services.AddScoped<IAmigoAppService, AmigoAppService>();
             services.AddScoped<IUsuarioAppService, UsuarioAppService>();
+            services.AddScoped<IJogoAppService, JogoAppService>();
             #endregion
 
             #region Repositories

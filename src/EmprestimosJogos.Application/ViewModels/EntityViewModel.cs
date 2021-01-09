@@ -1,14 +1,16 @@
-﻿namespace EmprestimosJogos.Application.ViewModels
+﻿using System;
+
+namespace EmprestimosJogos.Application.ViewModels
 {
     public class EntityViewModel
     {
         public EntityViewModel() { }
 
-        public EntityViewModel(string id)
+        public EntityViewModel(Guid id)
         {
             Id = id;
         }
 
-        public string Id { get; set; }
+        public Guid Id { get; set; }
     }
 }
