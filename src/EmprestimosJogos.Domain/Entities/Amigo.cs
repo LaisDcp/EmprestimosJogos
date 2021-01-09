@@ -37,5 +37,10 @@ namespace EmprestimosJogos.Domain.Entities
             ValidationResult = new AmigoValidation().Validate(this);
             return ValidationResult.IsValid;
         }
+
+        public void SetCreatorId(Guid creatorId)
+        {
+            CreatorId = creatorId;
+        }
     }
 }

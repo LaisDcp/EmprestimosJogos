@@ -6,8 +6,10 @@ namespace EmprestimosJogos.Application.ViewModels
     {
         public JogoViewModel()
         {
-            
+            IsEmprestado = false;
         }
+
+        public string Nome { get; set; }
 
         public DateTime? DataUltimoEmprestimo { get; set; }
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EmprestimosJogos.Application.ViewModels
+﻿namespace EmprestimosJogos.Application.ViewModels
 {
     public class AmigoViewModel : EntityViewModel
     {
@@ -9,8 +7,6 @@ namespace EmprestimosJogos.Application.ViewModels
             
         }
         public string Nome { get; set; }
-
-        public Guid PerfilId { get; set; }
 
         public string CEP { get; set; }
 
@@ -23,7 +19,5 @@ namespace EmprestimosJogos.Application.ViewModels
         public string Logradouro { get; set; }
 
         public string TelefoneCelular { get; set; }
-
-        public string TelefoneFixo { get; set; }
     }
 }

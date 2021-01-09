@@ -23,5 +23,11 @@ namespace EmprestimosJogos.Infra.Data.Repositories
             return Query(wh => wh.Email == userName)
                     .Any();
         }
+
+        public bool ExistsWithId(Guid id)
+        {
+            return Query(wh => wh.Id == id)
+                    .Any();
+        }
     }
 }

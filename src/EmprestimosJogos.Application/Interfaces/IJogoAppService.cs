@@ -13,6 +13,6 @@ namespace EmprestimosJogos.Application.Interfaces
 
         bool Delete(Guid id);
 
-        bool Edit(JogoViewModel jogo, Guid id);
+        bool Edit(JogoViewModel jogo, Guid id, Guid usuarioId);
     }
 }

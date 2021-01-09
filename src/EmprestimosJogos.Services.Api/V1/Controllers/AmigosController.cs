@@ -1,8 +1,12 @@
 using EmprestimosJogos.Application.Interfaces;
 using EmprestimosJogos.Application.ViewModels;
+using EmprestimosJogos.Domain.Core.Enum;
+using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
+using EmprestimosJogos.Services.Api.Configurations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Primitives;
 using System;
 
 namespace EmprestimosJogos.Services.Api.V1.Controllers
@@ -48,7 +52,11 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public IActionResult Edit(AmigoViewModel usuario, Guid id)
         {
-            bool _result = _service.Edit(usuario, id);
+            if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
+              !Guid.TryParse(uId, out Guid usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            bool _result = _service.Edit(usuario, id, usuarioId);
 
             return Ok(_result);
         }

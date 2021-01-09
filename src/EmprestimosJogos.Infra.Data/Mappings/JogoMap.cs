@@ -15,6 +15,10 @@ namespace EmprestimosJogos.Infra.Data.Mappings
                 .WithMany(p => p.Jogos)
                 .HasForeignKey(u => u.CreatorId);
 
+            builder.Property(c => c.IsEmprestado)
+                .HasDefaultValue(false)
+                .IsRequired();
+
             builder.HasOne(u => u.Amigo)
                 .WithMany(p => p.Jogos)
                 .HasForeignKey(u => u.AmigoId)

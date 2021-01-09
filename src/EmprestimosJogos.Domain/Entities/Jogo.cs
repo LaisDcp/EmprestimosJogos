@@ -21,5 +21,10 @@ namespace EmprestimosJogos.Domain.Entities
         public virtual Usuario Creator { get; set; }
 
         public virtual Amigo Amigo { get; set; }
+
+        public void SetCreatorId(Guid creatorId)
+        {
+            CreatorId = creatorId;
+        }
     }
 }

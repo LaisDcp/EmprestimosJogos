@@ -1,11 +1,14 @@
 using AutoMapper;
 using EmprestimosJogos.Application.Interfaces;
+using EmprestimosJogos.Application.Validations;
 using EmprestimosJogos.Application.ViewModels;
+using EmprestimosJogos.Domain.Core.Enum;
 using EmprestimosJogos.Domain.Entities;
-using EmprestimosJogos.Domain.Interfaces.Facades;
 using EmprestimosJogos.Domain.Interfaces.Repositories;
 using EmprestimosJogos.Domain.Interfaces.UoW;
-using Microsoft.AspNetCore.Identity;
+using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
+using EmprestimosJogos.Infra.CrossCutting.Helpers;
+using FluentValidation.Results;
 using System;
 
 namespace EmprestimosJogos.Application.Services
@@ -14,27 +17,18 @@ namespace EmprestimosJogos.Application.Services
     {
         private readonly IAmigoRepository _repository;
         private readonly IUsuarioRepository _repositoryUsuario;
-        private readonly IPerfilRepository _repositoryPerfil;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
-        private readonly IAuthFacade _facadeAuth;
-        private readonly UserManager<Usuario> _userManager;
 
         public AmigoAppService(IAmigoRepository repository,
                                  IUsuarioRepository repositoryAutenticacao,
-                                 IPerfilRepository repositoryPerfil,
-                                 UserManager<Usuario> userManager,
-                                 IAuthFacade facadeAuth,
                                  IMapper mapper,
                                  IUnitOfWork uow)
         {
             _repository = repository;
             _repositoryUsuario = repositoryAutenticacao;
-            _repositoryPerfil = repositoryPerfil;
             _mapper = mapper;
             _uow = uow;
-            _facadeAuth = facadeAuth;
-            _userManager = userManager;
         }
 
         public ModelCountViewModel<AmigoViewModel> GetByFilter(FilterContainsViewModel filter)
@@ -47,7 +41,7 @@ namespace EmprestimosJogos.Application.Services
             throw new NotImplementedException();
         }
 
-        public bool Create(AmigoViewModel usuario)
+        public bool Create(AmigoViewModel amigo)
         {
             throw new NotImplementedException();
         }
@@ -57,9 +51,31 @@ namespace EmprestimosJogos.Application.Services
             throw new NotImplementedException();
         }
 
-        public bool Edit(AmigoViewModel usuario, Guid id)
+        public bool Edit(AmigoViewModel amigo, Guid id, Guid usuarioId)
         {
-            throw new NotImplementedException();
+            if (!_repositoryUsuario.ExistsWithId(usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            ValidationResult _result = new AmigoValidation().Validate(amigo);
+
+            if (!_result.IsValid)
+                throw new ApiException(_result.GetErrors(), ApiErrorCodes.MODNOTVALD);
+
+            Amigo _amigo = _repository.GetById(id);
+
+            if (_amigo == null)
+                throw new ApiException(ApiErrorCodes.INVAMIGO);
+
+            _amigo = _mapper.Map(amigo, _amigo);
+
+            _amigo.SetCreatorId(usuarioId);
+
+            _repository.Update(_amigo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
         }
     }
 }

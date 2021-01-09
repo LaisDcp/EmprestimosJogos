@@ -196,6 +196,20 @@ namespace EmprestimosJogos.Domain.Core.Enum
         [Description("A data não pode ser anterior a hoje.")]
         INVDATA,
 
+        /// <summary>
+        /// O jogo informado é inválido.
+        /// </summary>
+        [HttpStatusCode(StatusCodes.Status400BadRequest)]
+        [Description("O jogo informado é inválido.")]
+        INVJOGO,
+
+        /// <summary>
+        /// O amigo informado é inválido.
+        /// </summary>
+        [HttpStatusCode(StatusCodes.Status400BadRequest)]
+        [Description("O amigo informado é inválido.")]
+        INVAMIGO,
+
         #endregion
 
         #region 401 Status (Unauthorized)

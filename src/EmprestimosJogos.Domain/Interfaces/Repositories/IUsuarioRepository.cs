@@ -9,5 +9,7 @@ namespace EmprestimosJogos.Domain.Interfaces.Repositories
         Usuario GetByUserName(string userName, Func<IQueryable<Usuario>, object> includes = null);
 
         bool ExistsWithUserName(string userName);
+
+        bool ExistsWithId(Guid id);
     }
 }

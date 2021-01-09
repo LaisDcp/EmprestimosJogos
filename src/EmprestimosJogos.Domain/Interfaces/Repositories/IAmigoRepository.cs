@@ -9,7 +9,7 @@ namespace EmprestimosJogos.Domain.Interfaces.Repositories
     {
         IQueryable<Amigo> GetAll();
 
-        Amigo GetSimplifiedById(Guid id, Func<IQueryable<Amigo>, object> includes = null);
+        Amigo GetById(Guid id, Func<IQueryable<Amigo>, object> includes = null);
 
         IQueryable<Amigo> AdvancedFilter(Expression<Func<Amigo, bool>> where, string sortyBy, int page, int itemsPerPage, Func<IQueryable<Amigo>, object> includes = null);
 

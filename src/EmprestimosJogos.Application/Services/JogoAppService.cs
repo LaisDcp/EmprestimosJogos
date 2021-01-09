@@ -1,11 +1,14 @@
 using AutoMapper;
 using EmprestimosJogos.Application.Interfaces;
+using EmprestimosJogos.Application.Validations;
 using EmprestimosJogos.Application.ViewModels;
+using EmprestimosJogos.Domain.Core.Enum;
 using EmprestimosJogos.Domain.Entities;
-using EmprestimosJogos.Domain.Interfaces.Facades;
 using EmprestimosJogos.Domain.Interfaces.Repositories;
 using EmprestimosJogos.Domain.Interfaces.UoW;
-using Microsoft.AspNetCore.Identity;
+using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
+using EmprestimosJogos.Infra.CrossCutting.Helpers;
+using FluentValidation.Results;
 using System;
 
 namespace EmprestimosJogos.Application.Services
@@ -14,27 +17,18 @@ namespace EmprestimosJogos.Application.Services
     {
         private readonly IJogoRepository _repository;
         private readonly IUsuarioRepository _repositoryUsuario;
-        private readonly IPerfilRepository _repositoryPerfil;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _uow;
-        private readonly IAuthFacade _facadeAuth;
-        private readonly UserManager<Usuario> _userManager;
 
         public JogoAppService(IJogoRepository repository,
                                  IUsuarioRepository repositoryAutenticacao,
-                                 IPerfilRepository repositoryPerfil,
-                                 UserManager<Usuario> userManager,
-                                 IAuthFacade facadeAuth,
                                  IMapper mapper,
                                  IUnitOfWork uow)
         {
             _repository = repository;
             _repositoryUsuario = repositoryAutenticacao;
-            _repositoryPerfil = repositoryPerfil;
             _mapper = mapper;
             _uow = uow;
-            _facadeAuth = facadeAuth;
-            _userManager = userManager;
         }
 
         public ModelCountViewModel<JogoViewModel> GetByFilter(FilterContainsViewModel filter)
@@ -57,9 +51,31 @@ namespace EmprestimosJogos.Application.Services
             throw new NotImplementedException();
         }
 
-        public bool Edit(JogoViewModel jogo, Guid id)
+        public bool Edit(JogoViewModel jogo, Guid id, Guid usuarioId)
         {
-            throw new NotImplementedException();
+            if (!_repositoryUsuario.ExistsWithId(usuarioId))
+                throw new ApiException(ApiErrorCodes.INVUSU);
+
+            ValidationResult _result = new JogoValidation().Validate(jogo);
+
+            if (!_result.IsValid)
+                throw new ApiException(_result.GetErrors(), ApiErrorCodes.MODNOTVALD);
+
+            Jogo _jogo = _repository.GetById(id);
+
+            if (_jogo == null)
+                throw new ApiException(ApiErrorCodes.INVJOGO);
+
+            _jogo = _mapper.Map(jogo, _jogo);
+
+            _jogo.SetCreatorId(usuarioId);
+
+            _repository.Update(_jogo);
+
+            if (!_uow.Commit())
+                throw new ApiException(ApiErrorCodes.ERROPBD);
+
+            return true;
         }
     }
 }
