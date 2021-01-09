@@ -17,6 +17,9 @@ namespace EmprestimosJogos.Application.AutoMapper
             CreateMap<CreateUsuarioViewModel, Usuario>()
                 .ForMember(entity => entity.Id, opt => opt.Ignore())
                 .ForMember(entity => entity.UserName, opt => opt.MapFrom(viewModel => viewModel.Email));
+
+            CreateMap<NomeBaseViewModel, Usuario>()
+                .ForMember(entity => entity.Id, opt => opt.Ignore());
         }
     }
 }
