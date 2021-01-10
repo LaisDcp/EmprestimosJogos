@@ -12,7 +12,7 @@ namespace EmprestimosJogos.Infra.CrossCutting.Auth.Providers
     {
         private const string _authenticationType = "JWT";
 
-        public HasPermissionAttribute(string module = null, string action = null) => Permission = $"{_authenticationType}:{module}:{action}";
+        public HasPermissionAttribute(string profile = null) => Permission = $"{_authenticationType}:{profile}";
 
         // Get or set the Permission property by manipulating the underlying Policy property
         public string Permission

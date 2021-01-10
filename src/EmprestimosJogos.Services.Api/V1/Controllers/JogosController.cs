@@ -1,6 +1,8 @@
 using EmprestimosJogos.Application.Interfaces;
 using EmprestimosJogos.Application.ViewModels;
 using EmprestimosJogos.Domain.Core.Enum;
+using EmprestimosJogos.Domain.Entities;
+using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
 using EmprestimosJogos.Services.Api.Configurations;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +13,7 @@ using System;
 
 namespace EmprestimosJogos.Services.Api.V1.Controllers
 {
+    [HasPermission(nameof(Perfil.ADM))]
     [Authorize, Route("[controller]"), ApiController]
     public class JogosController : ControllerBase
     {

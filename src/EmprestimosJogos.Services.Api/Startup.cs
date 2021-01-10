@@ -17,6 +17,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmprestimosJogos.Services.Api
 {
@@ -109,6 +110,8 @@ namespace EmprestimosJogos.Services.Api
             services.AddSignalR(opt => { opt.EnableDetailedErrors = true; });
 
             services.AddResponseCompression();
+
+            services.AddCustomPolicyProviderConfiguration();
 
             RegisterServices(services);
         }

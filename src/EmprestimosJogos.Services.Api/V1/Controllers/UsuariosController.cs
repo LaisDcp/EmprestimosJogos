@@ -1,6 +1,8 @@
 using EmprestimosJogos.Application.Interfaces;
 using EmprestimosJogos.Application.ViewModels;
 using EmprestimosJogos.Domain.Core.Enum;
+using EmprestimosJogos.Domain.Entities;
+using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Extensions;
 using EmprestimosJogos.Services.Api.Configurations;
 using Microsoft.AspNetCore.Authorization;
@@ -32,6 +34,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpGet]
+        [HasPermission(nameof(Perfil.ADM))]
         [ProducesResponseType(typeof(UsuarioViewModel), StatusCodes.Status200OK)]
         public IActionResult GetById()
         {
@@ -45,6 +48,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpDelete]
+        [HasPermission(nameof(Perfil.ADM))]
         [ProducesResponseType(typeof(bool), StatusCodes.Status204NoContent)]
         public IActionResult Delete()
         {
@@ -57,6 +61,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpPut]
+        [HasPermission(nameof(Perfil.ADM))]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public IActionResult Edit(NomeBaseViewModel usuario)
         {
@@ -79,6 +84,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpPut("alterar-senha")]
+        [HasPermission(nameof(Perfil.ADM))]
         public async Task<IActionResult> AlterarSenha(AlterarSenhaUsuarioViewModel alterarSenha)
         {
             await _service.AlterarSenha(alterarSenha);
