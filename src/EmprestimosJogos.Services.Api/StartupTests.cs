@@ -94,7 +94,7 @@ namespace EmprestimosJogos.Services.Api
 
             services.AddMvc().AddNewtonsoftJson();
 
-            services.AddCors(o => o.AddPolicy("SignalRCorsPolicy", builder =>
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
                 builder
                     .AllowAnyMethod()
@@ -103,7 +103,7 @@ namespace EmprestimosJogos.Services.Api
                     .SetIsOriginAllowed(h => true);
             }));
 
-            services.AddSignalR(opt => { opt.EnableDetailedErrors = true; });
+            services.AddCustomPolicyProviderConfiguration();
 
             RegisterServices(services);
         }
@@ -117,7 +117,7 @@ namespace EmprestimosJogos.Services.Api
 
             app.UseExceptionHandlerMiddleware();
 
-            app.UseCors("SignalRCorsPolicy");
+            app.UseCors("CorsPolicy");
 
             app.UseStaticFiles();
             app.UseAuthentication();

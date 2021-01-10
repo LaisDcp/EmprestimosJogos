@@ -1,10 +1,11 @@
-﻿using FluentValidation.AspNetCore;
-using EmprestimosJogos.Domain.Core.Types;
+﻿using EmprestimosJogos.Domain.Core.Types;
+using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Providers;
 using EmprestimosJogos.Infra.CrossCutting.Identity.Providers;
 using EmprestimosJogos.Infra.CrossCutting.IoC;
 using EmprestimosJogos.Infra.CrossCutting.Swagger.Providers;
 using EmprestimosJogos.Services.Api.Configurations;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
@@ -16,8 +17,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
-using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
-using Microsoft.AspNetCore.Authorization;
 
 namespace EmprestimosJogos.Services.Api
 {
@@ -47,8 +46,6 @@ namespace EmprestimosJogos.Services.Api
         // Não alterar a sequência das chamadas no método abaixo.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddWebApi();
-
             services.AddAutoMapperSetup();
             services.AddCustomIdentityConfiguration();
 
@@ -97,7 +94,7 @@ namespace EmprestimosJogos.Services.Api
 
             services.AddMvc().AddNewtonsoftJson();
 
-            services.AddCors(o => o.AddPolicy("SignalRCorsPolicy", builder =>
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
                 builder
                     .AllowAnyMethod()
@@ -126,7 +123,7 @@ namespace EmprestimosJogos.Services.Api
             app.UseExceptionHandlerMiddleware();
             app.UseSwaggerConfiguration();
 
-            app.UseCors("SignalRCorsPolicy");
+            app.UseCors("CorsPolicy");
 
             app.UseResponseCompression();
 
