@@ -196,7 +196,7 @@ namespace EmprestimosJogos.Application.Services
 
         public async Task RecuperarMinhaSenha(string email)
         {
-            Usuario _autenticacao = _repository.GetByUserName(
+            Usuario _usuario = _repository.GetByUserName(
                                                         email,
                                                         q => q
                                                             .Include(i => i.Tokens)
@@ -206,16 +206,16 @@ namespace EmprestimosJogos.Application.Services
             /// Para prever segurança e privacidade para o proprietário do endereço de e-mail, 
             /// o usuário solicitante do "Recuperar senha" não será avisado que o e-mail não está registrado no sistema
             /// </summary>
-            if (_autenticacao == null)
+            if (_usuario == null)
                 return;
 
-            string _identityToken = await _userManager.GeneratePasswordResetTokenAsync(_autenticacao);
-            Token _newToken = _autenticacao.AddNewToken(_identityToken,
+            string _identityToken = await _userManager.GeneratePasswordResetTokenAsync(_usuario);
+            Token _newToken = _usuario.AddNewToken(_identityToken,
                                                         _repositoryTokenType.GetByCodigo(TokenType.ResetSenha).Id);
 
             //TODO: Enviar token por email para reset de senha
 
-            _repository.Update(_autenticacao);
+            _repository.Update(_usuario);
 
             if (!_uow.Commit())
                 throw new ApiException(ApiErrorCodes.ERRGERTOK);

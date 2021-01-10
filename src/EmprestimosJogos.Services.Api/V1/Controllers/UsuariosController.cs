@@ -96,7 +96,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpGet("recuperar-minha-senha"), AllowAnonymous]
-        public async Task<IActionResult> EsqueciSenha(string email)
+        public async Task<IActionResult> RecuperarMinhaSenha(string email)
         {
             await _service.RecuperarMinhaSenha(email);
             return Ok();
