@@ -79,7 +79,6 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpPut("alterar-senha")]
-        [ProducesResponseType(typeof(RetornoAutenticacaoViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> AlterarSenha(AlterarSenhaUsuarioViewModel alterarSenha)
         {
             await _service.AlterarSenha(alterarSenha);
@@ -88,7 +87,6 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpPost("reset-senha"), AllowAnonymous]
-        [ProducesResponseType(typeof(RetornoAutenticacaoViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> ResetSenha(ResetSenhaUsuarioViewModel resetSenha)
         {
             await _service.ResetSenha(resetSenha);
@@ -96,9 +94,10 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpGet("recuperar-minha-senha"), AllowAnonymous]
+        [ProducesResponseType(typeof(TokenViewModel), StatusCodes.Status200OK)]
         public async Task<IActionResult> RecuperarMinhaSenha(string email)
         {
-            await _service.RecuperarMinhaSenha(email);
-            return Ok();
+            TokenViewModel _result = await _service.RecuperarMinhaSenha(email);
+            return Ok(_result);
         }    }
 }

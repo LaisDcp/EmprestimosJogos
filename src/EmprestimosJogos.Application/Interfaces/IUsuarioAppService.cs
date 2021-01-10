@@ -20,6 +20,6 @@ namespace EmprestimosJogos.Application.Interfaces
 
         Task ResetSenha(ResetSenhaUsuarioViewModel resetSenha);
 
-        Task RecuperarMinhaSenha(string email);
+        Task<TokenViewModel> RecuperarMinhaSenha(string email);
     }
 }

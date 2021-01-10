@@ -61,7 +61,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         }
 
         [HttpPost("filter")]
-        [ProducesResponseType(typeof(ModelCountViewModel<AmigoViewModel>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ModelCountViewModel<JogoViewModel>), StatusCodes.Status200OK)]
         public IActionResult GetByFilter([FromBody] FilterPaginacaoViewModel filter)
         {
             if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
