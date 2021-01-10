@@ -63,20 +63,17 @@ namespace EmprestimosJogos.Infra.Data.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            string _environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-
             IConfigurationRoot _configuration = new ConfigurationBuilder()
                                                     .SetBasePath(Directory.GetCurrentDirectory())
                                                     .AddJsonFile("appsettings.json", optional: true)
-                                                    .AddJsonFile($"appsettings.{_environment}.json", optional: true, reloadOnChange: true)
+                                                    .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", optional: true, reloadOnChange: true)
                                                     .AddEnvironmentVariables()
                                                     .Build();
 
-            optionsBuilder.UseSqlServer(_configuration.GetConnectionString(nameof(EmprestimosJogosContext)));
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString(nameof(EmprestimosJogosContext)))
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
 
-            optionsBuilder
-                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking)
-                .EnableSensitiveDataLogging();
+            optionsBuilder.EnableSensitiveDataLogging();
 
             if (Debugger.IsAttached)
                 optionsBuilder.UseLoggerFactory(_debugLoggerFactory);

@@ -153,9 +153,6 @@ namespace EmprestimosJogos.Services.Api
             {
                 EmprestimosJogosContext _context = serviceScope.ServiceProvider.GetService<EmprestimosJogosContext>();
 
-                _context.Database.EnsureDeleted();
-                _context.Database.EnsureCreated();
-
 
             }
         }
