@@ -1,6 +1,6 @@
 ﻿namespace EmprestimosJogos.Application.ViewModels
 {
-    public class UsuarioViewModel: NomeBaseViewModel
+    public class UsuarioViewModel : NomeBaseViewModel
     {
         public UsuarioViewModel()
         {

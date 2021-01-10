@@ -19,7 +19,7 @@ namespace EmprestimosJogos.Infra.Data.Mappings
             builder.Property(e => e.Descricao)
                 .HasMaxLength(150)
                 .IsRequired(false);
-            
+
         }
     }
 }

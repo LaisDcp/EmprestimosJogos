@@ -50,7 +50,7 @@ namespace EmprestimosJogos.Services.Api.V1.Controllers
         {
             if (!Request.Headers.TryGetValue(ControllersConstants.UsuarioId, out StringValues uId) ||
                     !Guid.TryParse(uId, out Guid id))
-                throw new ApiException(ApiErrorCodes.INVUSU); 
+                throw new ApiException(ApiErrorCodes.INVUSU);
 
             bool _result = _service.Delete(id);
             return Ok(_result);

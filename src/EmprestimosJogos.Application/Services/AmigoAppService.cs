@@ -75,7 +75,7 @@ namespace EmprestimosJogos.Application.Services
 
         public bool Create(AmigoViewModel amigo, Guid usuarioId)
         {
-            if(!_repositoryUsuario.ExistsWithId(usuarioId))
+            if (!_repositoryUsuario.ExistsWithId(usuarioId))
                 throw new ApiException(ApiErrorCodes.INVUSU);
 
             ValidationResult _result = new AmigoValidation().Validate(amigo);

@@ -4,7 +4,7 @@
     {
         public AmigoViewModel()
         {
-            
+
         }
         public string Nome { get; set; }
 

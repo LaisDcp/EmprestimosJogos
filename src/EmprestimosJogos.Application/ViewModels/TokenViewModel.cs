@@ -5,9 +5,7 @@ namespace EmprestimosJogos.Application.ViewModels
     public class TokenViewModel
     {
         public TokenViewModel()
-        {
-
-        }
+        { }
 
         public TokenViewModel(Guid tokenId)
         {
