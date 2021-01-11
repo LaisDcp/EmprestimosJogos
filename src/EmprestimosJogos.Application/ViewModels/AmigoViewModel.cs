@@ -6,6 +6,13 @@
         {
 
         }
+
+        public AmigoViewModel(string nome, string telefoneCelular)
+        {
+            Nome = nome;
+            TelefoneCelular = telefoneCelular;
+        }
+
         public string Nome { get; set; }
 
         public string CEP { get; set; }
