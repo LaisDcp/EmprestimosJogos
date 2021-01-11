@@ -41,8 +41,6 @@ namespace EmprestimosJogos.Domain.Tests.Fixture
                 });
 
             return _amigo;
-
-            return _amigo;
         }
     }
 }
