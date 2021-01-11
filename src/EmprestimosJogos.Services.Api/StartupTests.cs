@@ -1,4 +1,5 @@
 ﻿using EmprestimosJogos.Domain.Core.Types;
+using EmprestimosJogos.Domain.Entities;
 using EmprestimosJogos.Infra.CrossCutting.Auth.Providers;
 using EmprestimosJogos.Infra.CrossCutting.ExceptionHandler.Providers;
 using EmprestimosJogos.Infra.CrossCutting.Identity.Providers;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace EmprestimosJogos.Services.Api
@@ -147,14 +149,77 @@ namespace EmprestimosJogos.Services.Api
 
     public static class StartupTestsExtension
     {
+        private static readonly Guid _perfilId = new Guid("8907D860-CEB1-4345-B798-8757200E90C9");
+
         public static void SeedData(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
                 EmprestimosJogosContext _context = serviceScope.ServiceProvider.GetService<EmprestimosJogosContext>();
 
+                Usuario _usuario = GetUsuario();
 
+                if (!_context.Usuario.Any(wh => wh.Id == _usuario.Id))
+                    _context.Usuario.Add(_usuario);
+
+                Jogo _jogo = GetJogo();
+
+                if (!_context.Jogo.Any(wh => wh.Id == _jogo.Id))
+                    _context.Jogo.Add(_jogo);
+
+                Amigo _amigo = GetAmigo();
+
+                if (!_context.Amigo.Any(wh => wh.Id == _amigo.Id))
+                    _context.Amigo.Add(_amigo);
+
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
+        }
+
+        public static Usuario GetUsuario()
+        {
+            string _email = "adm@email.com.br";
+
+            var _usuario =  new Usuario
+            {
+                Id = new Guid("3E50E8B0-43AF-414F-B55D-9CA16E4EF5D9"),
+                Email = _email,
+                Nome = "adm",
+                NormalizedEmail = _email.ToUpper(),
+                UserName = _email,
+                NormalizedUserName = _email.ToUpper(),
+                PasswordHash = "AQAAAAEAACcQAAAAEK3y1PJbnmX9TbwJ61l+ewqcnS6nntFTut3QoU1MT/BUvCNqvsM7j4nwOpFF6Plk/w==", // Senha: 39ag86
+                SecurityStamp = "MALPBMVWVII6D6P3JYMP4JZ7MOM27WAO",
+                LockoutEnabled = true,
+                AccessFailedCount = 0,
+                CreatedDate = DateTime.Now,
+            };
+
+            _usuario.SetPerfilId(_perfilId);
+
+            return _usuario;
+        }
+
+        public static Jogo GetJogo()
+        {
+            return new Jogo(nome: "Grand Theft Auto: San Andreas",
+                            creatorId: GetUsuario().Id,
+                            id: new Guid("6434C611-7CA8-499F-B015-D156937023B8"));
+        }
+
+        public static Amigo GetAmigo()
+        {
+            return new Amigo(nome: "Nome Amigo",
+                             telefoneCelular: "12123654789",
+                             creatorId: GetUsuario().Id,
+                             id: new Guid("24E71445-3EA1-4038-A76A-68687A98BD0B"));
         }
     }
 }
