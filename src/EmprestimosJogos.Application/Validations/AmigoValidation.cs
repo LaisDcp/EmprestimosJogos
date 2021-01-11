@@ -21,8 +21,9 @@ namespace EmprestimosJogos.Application.Validations
 
             RuleFor(u => u.TelefoneCelular)
                 .Length(11)
-                .When(u => !string.IsNullOrEmpty(u.TelefoneCelular))
-                    .WithMessage(ApiErrorCodes.INVCEL.GetDescription());
+                    .WithMessage(ApiErrorCodes.INVCEL.GetDescription())
+                .NotEmpty()
+                    .WithMessage(_campoObrigatorioMessage);
         }
     }
 }
