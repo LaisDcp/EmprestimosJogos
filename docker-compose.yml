@@ -7,7 +7,7 @@ services:
       - "5000:80"
     build:
       context: .
-      dockerfile: src\EmprestimosJogos.Services.Api/Dockerfile
+      dockerfile: ./src/EmprestimosJogos.Services.Api/Dockerfile
     networks: 
       - emprestimosJogos-network   
     environment:
