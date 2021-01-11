@@ -1,4 +1,5 @@
 using EmprestimosJogos.Domain.Core.Models;
+using EmprestimosJogos.Domain.Validations;
 using System;
 
 namespace EmprestimosJogos.Domain.Entities
@@ -42,6 +43,12 @@ namespace EmprestimosJogos.Domain.Entities
             DataEmprestimo = DateTime.Now;
             IsEmprestado = true;
             AmigoId = amigoId;
+        }
+
+        public bool IsValid()
+        {
+            ValidationResult = new JogoValidation().Validate(this);
+            return ValidationResult.IsValid;
         }
     }
 }
