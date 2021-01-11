@@ -1,0 +1,44 @@
+version: '3.4'
+services: 
+   
+  api:
+    container_name: emprestimosJogos-api 
+    ports:
+      - "5000:80"
+    build:
+      context: .
+      dockerfile: src\EmprestimosJogos.Services.Api/Dockerfile
+    networks: 
+      - emprestimosJogos-network   
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development.Docker
+    depends_on:
+      - db
+        
+  db:
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    container_name: emprestimosJogos-mssqlserver
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=PassWord123@
+      - MSSQL_PID=Developer
+    build:
+      context: .
+      dockerfile: ./sql/Dockerfile
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "10"
+    networks: 
+      - emprestimosJogos-network
+
+volumes:
+  sqlserver-data:  
+    
+networks: 
+  emprestimosJogos-network:
+      driver: bridge
