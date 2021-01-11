@@ -1,7 +1,7 @@
-﻿using FluentValidation;
-using EmprestimosJogos.Domain.Core.Enum;
+﻿using EmprestimosJogos.Domain.Core.Enum;
 using EmprestimosJogos.Domain.Entities;
 using EmprestimosJogos.Infra.CrossCutting.Helpers;
+using FluentValidation;
 
 namespace EmprestimosJogos.Domain.Validations
 {
@@ -11,11 +11,19 @@ namespace EmprestimosJogos.Domain.Validations
 
         public UsuarioValidation()
         {
+            RuleFor(u => u.Nome)
+                .NotEmpty()
+                    .WithMessage(_campoObrigatorioMessage);
+
             RuleFor(u => u.Email)
                .EmailAddress()
                    .WithMessage(ApiErrorCodes.INVEMAIL.GetDescription())
-               .NotNull()
+               .NotEmpty()
                    .WithMessage(_campoObrigatorioMessage);
+
+            RuleFor(u => u.PerfilId)
+                .NotEmpty()
+                    .WithMessage(_campoObrigatorioMessage);
         }
     }
 }
