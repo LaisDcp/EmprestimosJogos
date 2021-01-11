@@ -19,9 +19,10 @@ namespace EmprestimosJogos.Application.Validations
                .NotEmpty()
                    .WithMessage(_campoObrigatorioMessage);
 
-            RuleFor(u => u.Senha)
-                .NotEmpty()
-                   .WithMessage(_campoObrigatorioMessage);
+            RuleFor(u => u)
+                .Must(p => p.Senha == p.ConfirmacaoSenha)
+                    .WithMessage(ApiErrorCodes.SENDIV.GetDescription())
+                    .OverridePropertyName(u => u.ConfirmacaoSenha);
         }
     }
 }
