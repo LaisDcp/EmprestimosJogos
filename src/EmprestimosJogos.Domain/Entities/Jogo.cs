@@ -11,6 +11,13 @@ namespace EmprestimosJogos.Domain.Entities
             IsEmprestado = false;
         }
 
+        public Jogo(string nome, Guid creatorId, Guid id) : base()
+        {
+            Nome = nome;
+            CreatorId = creatorId;
+            Id = id;
+        }
+
         public string Nome { get; set; }
 
         public DateTime? DataEmprestimo { get; set; }

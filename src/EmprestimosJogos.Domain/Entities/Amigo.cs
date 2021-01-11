@@ -12,6 +12,14 @@ namespace EmprestimosJogos.Domain.Entities
             JogosEmprestados = new List<Jogo>();
         }
 
+        public Amigo(string nome, string telefoneCelular, Guid creatorId, Guid id) : base()
+        {
+            Nome = nome;
+            TelefoneCelular = telefoneCelular;
+            CreatorId = creatorId;
+            Id = id;
+        }
+
         public string Nome { get; set; }
 
         public string CEP { get; set; }
