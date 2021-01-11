@@ -16,14 +16,18 @@ namespace EmprestimosJogos.Domain.Validations
                     .WithMessage(_campoObrigatorioMessage);
 
             RuleFor(u => u.CEP)
-                .MinimumLength(8)
+                .Length(8)
                 .When(u => !string.IsNullOrEmpty(u.CEP))
                     .WithMessage(ApiErrorCodes.INVCEP.GetDescription());
 
             RuleFor(u => u.TelefoneCelular)
-                .MinimumLength(10)
+                .Length(11)
                 .When(u => !string.IsNullOrEmpty(u.TelefoneCelular))
                     .WithMessage(ApiErrorCodes.INVCEL.GetDescription());
+
+            RuleFor(u => u.CreatorId)
+                .NotEmpty()
+                    .WithMessage(_campoObrigatorioMessage);
         }
     }
 }
